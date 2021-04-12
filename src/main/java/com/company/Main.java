@@ -9,23 +9,16 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        ObjectMapper mapper = new ObjectMapper();
-
-        List<Country> result = null;
-
-        var type = new TypeReference<List<Country>>(){};
-
-        try {
-            URL url = new URL("http://localhost:8080/api/countries");
-            result = mapper.readValue(url, type);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        CountryService client = new CountryServiceClient();
 
         for (var country :
-                result) {
+                client.getCountries()) {
             System.out.println(country.getCode());
         }
+
+        var country = client.getCountryById(1);
+
+        System.out.println(country.getName());
 
     }
 }
